@@ -52,7 +52,7 @@ export default function InquilinosPage() {
           </DialogTrigger>
           <DialogContent className="sm:max-w-[70vw] sm:max-h-[70vh] w-sm  overflow-y-auto ">
             <DialogHeader>
-              <DialogTitle>Novo Inquilino</DialogTitle>
+              <DialogTitle>Novo Inquilinoyarn </DialogTitle>
             </DialogHeader>
             <form action={addInquilino}>
               <div className="grid gap-4">
