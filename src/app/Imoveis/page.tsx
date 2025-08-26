@@ -61,6 +61,8 @@ export default function ImoveisPage() {
   const addImovel = (formData: FormData) => {
     const endereco = formData.get("endereco") as string;
     const valor = Number(formData.get("valor"));
+
+    if (!endereco || !valor) return;
     const novoImovel: Imovel = {
       id: imoveis.length + 1,
       endereco,
@@ -116,7 +118,9 @@ export default function ImoveisPage() {
                 <DialogClose asChild>
                   <Button variant="outline">Cancel</Button>
                 </DialogClose>
-                <Button type="submit">Salvar</Button>
+                <DialogClose asChild>
+                  <Button type="submit">Salvar</Button>
+                </DialogClose>
               </DialogFooter>
             </form>
           </DialogContent>
