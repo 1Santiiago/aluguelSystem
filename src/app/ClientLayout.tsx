@@ -29,7 +29,7 @@ export default function ClientLayout({
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
-    if (!storedEmail && pathname !== "login") {
+    if (!storedEmail && pathname !== "/login") {
       router.push("/login");
     } else {
       setEmailStorage(storedEmail);
