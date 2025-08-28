@@ -34,10 +34,10 @@ export default function ClientLayout({
     } else {
       setEmailStorage(storedEmail);
     }
-  }, [pathname, router]);
+  }, [router]);
 
   if (!emailStorage && pathname !== "/login") {
-    return null; // evita flash antes do redirect
+    return null;
   }
 
   return (

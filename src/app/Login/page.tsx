@@ -9,7 +9,7 @@ const Page = () => {
   const router = useRouter();
 
   const handleForm = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); 
+    e.preventDefault();
     localStorage.setItem("email", "admin@admin.com");
     console.log("Salvou no localStorage!");
 
