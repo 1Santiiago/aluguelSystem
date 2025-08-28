@@ -1,7 +1,6 @@
 "use client";
 import "./globals.css";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import {
   SidebarProvider,
@@ -16,6 +15,7 @@ import {
   SidebarMenuButton,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { useEffect, useState } from "react";
 
 export default function ClientLayout({
   children,
@@ -23,22 +23,24 @@ export default function ClientLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const [emailStorage, setEmailStorage] = useState<string | null>(null);
   const pathname = usePathname();
   const showSidebar = pathname !== "/login";
 
+  const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
-    const storedEmail = localStorage.getItem("email");
-    if (!storedEmail) {
-      router.push("/login");
-    } else {
-      setEmailStorage(storedEmail);
-    }
+    // Garante que o código só rode no client
+    setIsMounted(true);
   }, []);
-  function logout() {
-    document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    window.location.href = "/login";
-  }
+
+  const handleLogout = () => {
+    // Remove cookie de login
+    document.cookie =
+      "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax";
+    router.push("/login");
+  };
+
+  if (!isMounted) return null; // evita flash de conteúdo antes do client
 
   return (
     <SidebarProvider>
@@ -52,24 +54,22 @@ export default function ClientLayout({
                   <SidebarMenu>
                     <SidebarMenuItem>
                       <SidebarMenuButton asChild>
-                        <Link href="/Imoveis">🏠 Imóveis</Link>
+                        <Link href="/imoveis">🏠 Imóveis</Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                       <SidebarMenuButton asChild>
-                        <Link href="/Inquilinos">👥 Inquilinos</Link>
+                        <Link href="/inquilinos">👥 Inquilinos</Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                       <SidebarMenuButton asChild>
-                        <Link href="/Alugueis">📑 Aluguéis</Link>
+                        <Link href="/aluguéis">📑 Aluguéis</Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild>
-                        <Link href="/login" onClick={logout}>
-                          ↩ Sair
-                        </Link>
+                      <SidebarMenuButton onClick={handleLogout}>
+                        ↩ Sair
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   </SidebarMenu>
