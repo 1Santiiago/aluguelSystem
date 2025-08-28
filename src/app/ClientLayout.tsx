@@ -35,6 +35,10 @@ export default function ClientLayout({
       setEmailStorage(storedEmail);
     }
   }, []);
+  function logout() {
+    document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.location.href = "/login";
+  }
 
   return (
     <SidebarProvider>
@@ -63,10 +67,7 @@ export default function ClientLayout({
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                       <SidebarMenuButton asChild>
-                        <Link
-                          href="/login"
-                          onClick={() => localStorage.clear()}
-                        >
+                        <Link href="/login" onClick={logout}>
                           ↩ Sair
                         </Link>
                       </SidebarMenuButton>

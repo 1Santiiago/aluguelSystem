@@ -10,12 +10,9 @@ const Page = () => {
 
   const handleForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    localStorage.setItem("email", "admin@admin.com");
-    console.log("Salvou no localStorage!");
-
-    if (localStorage.getItem("email")) {
-      router.push("/");
-    }
+    document.cookie = "email=admin@admin.com; path=/";
+    console.log("Cookie de login criado!");
+    router.push("/");
   };
 
   return (
