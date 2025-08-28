@@ -37,7 +37,7 @@ export default function ClientLayout({
   }, [pathname, router]);
 
   if (!emailStorage && pathname !== "/login") {
-    return null;
+    return null; // evita flash antes do redirect
   }
 
   return (
