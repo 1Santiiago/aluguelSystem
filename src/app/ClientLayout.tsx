@@ -34,7 +34,7 @@ export default function ClientLayout({
     } else {
       setEmailStorage(storedEmail);
     }
-  }, [router]);
+  }, []);
 
   return (
     <SidebarProvider>
