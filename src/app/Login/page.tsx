@@ -1,10 +1,25 @@
+"use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import React from "react";
 
 const Page = () => {
+  const router = useRouter();
+
+  const handleForm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // previne reload
+    localStorage.setItem("email", "admin@admin.com");
+    console.log("Salvou no localStorage!");
+
+    if (localStorage.getItem("email")) {
+      router.push("/");
+    }
+  };
+
   return (
     <div className="h-screen w-full flex flex-col md:flex-row">
-      {/* parte do formulário */}
       <div className="w-full md:w-1/2 flex items-center justify-center bg-white">
         <div className="w-full max-w-md p-8 text-black ">
           <Image
@@ -17,24 +32,26 @@ const Page = () => {
           <h1 className="text-2xl font-bold mb-6 text-center md:text-left">
             Faça seu Login
           </h1>
-          <form className="space-y-4" action="">
+          <form className="flex flex-col gap-4" onSubmit={handleForm}>
             <div>
               <label htmlFor="email">Email</label>
-              <input
+              <Input
                 type="email"
                 id="email"
                 placeholder="Digite seu email"
                 className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                defaultValue={"admin@admin.com"}
               />
             </div>
 
             <div>
               <label htmlFor="password">Senha</label>
-              <input
+              <Input
                 type="password"
                 id="password"
                 placeholder="Digite sua senha"
                 className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                defaultValue={12345678}
               />
             </div>
 
@@ -45,18 +62,17 @@ const Page = () => {
               </label>
             </div>
 
-            <button
+            <Button
               type="submit"
               className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg shadow transition"
             >
               Entrar
-            </button>
+            </Button>
           </form>
         </div>
       </div>
 
-      {/* parte da imagem e texto */}
-      <div className="w-full md:w-1/2 bg-indigo-500 text-white lg:flex  sm:block md:block flex-col items-center justify-center p-10 hidden">
+      <div className="w-full md:w-1/2 bg-indigo-500 text-white lg:flex sm:block md:block flex-col items-center justify-center p-10 hidden">
         <Image
           src="/hose.png"
           alt="login"

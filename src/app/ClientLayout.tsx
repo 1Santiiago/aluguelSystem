@@ -1,7 +1,8 @@
 "use client";
 import "./globals.css";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import {
   SidebarProvider,
   Sidebar,
@@ -21,9 +22,24 @@ export default function ClientLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+  const [emailStorage, setEmailStorage] = useState<string | null>(null);
   const pathname = usePathname();
   const showSidebar = pathname !== "/login";
-  console.log(pathname);
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+    if (!storedEmail && pathname !== "/login") {
+      router.push("/login");
+    } else {
+      setEmailStorage(storedEmail);
+    }
+  }, [pathname, router]);
+
+  // Evitar renderização prematura antes do useEffect rodar
+  if (!emailStorage && pathname !== "/login") {
+    return null; // mostra nada enquanto redireciona
+  }
 
   return (
     <SidebarProvider>
@@ -50,6 +66,16 @@ export default function ClientLayout({
                         <Link href="/Alugueis">📑 Aluguéis</Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild>
+                        <Link
+                          href="/login"
+                          onClick={() => localStorage.clear()}
+                        >
+                          ↩ Sair
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
                   </SidebarMenu>
                 </SidebarGroupContent>
               </SidebarGroup>
@@ -64,16 +90,16 @@ export default function ClientLayout({
 
         <main className="flex-1">
           <div>
-            {showSidebar && (
-              <header className="flex items-center border-b p-2 mx-2">
+            <header className="flex items-center p-2 mx-2">
+              {showSidebar && (
                 <>
                   <SidebarTrigger />
                   <Link href="/">
                     <h1 className="font-bold text-xl ml-2">RoxoLar</h1>
                   </Link>
                 </>
-              </header>
-            )}
+              )}
+            </header>
             <div className="">{children}</div>
           </div>
         </main>
